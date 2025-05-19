@@ -14,19 +14,6 @@ public record PointHistory(
         UpdateMillis updateMillis
 ) {
 
-    public static PointHistory of(
-            UserPointId userPointId,
-            Amount amount,
-            TransactionType transactionType
-    ) {
-        return new PointHistory(
-                null,
-                userPointId,
-                amount,
-                transactionType,
-                null
-        );
-    }
 
     public static PointHistory of(
             PointHistoryId pointHistoryId,
@@ -41,6 +28,26 @@ public record PointHistory(
                 amount,
                 transactionType,
                 updateMillis
+        );
+    }
+
+    public static PointHistory charge(UserPointId userId, Amount amount) {
+        return new PointHistory(
+            null,
+            userId,
+            amount,
+            TransactionType.CHARGE,
+            null
+        );
+    }
+
+    public static PointHistory use(UserPointId userId, Amount amount) {
+        return new PointHistory(
+            null,
+            userId,
+            amount,
+            TransactionType.USE,
+            null
         );
     }
 }
