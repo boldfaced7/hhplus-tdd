@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ChargeUserUserPointService implements ChargeUserPointUseCase {
+public class ChargeUserPointService implements ChargeUserPointUseCase {
 
     private final FindUserPointPort getUserPointPort;
     private final UpdateUserPointPort updateUserPointPort;
