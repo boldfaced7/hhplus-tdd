@@ -1,7 +1,6 @@
 package io.hhplus.tdd.point.adapter.out.persistence;
 
 
-import io.hhplus.tdd.point.domain.model.PointHistory;
 import io.hhplus.tdd.point.domain.enums.TransactionType;
 import org.springframework.stereotype.Component;
 
@@ -14,18 +13,18 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class PointHistoryTable {
-    private final List<PointHistory> table = new ArrayList<>();
+    private final List<PointHistoryModel> table = new ArrayList<>();
     private long cursor = 1;
 
-    public PointHistory insert(long userId, long amount, TransactionType type, long updateMillis) {
+    public PointHistoryModel insert(long userId, long amount, TransactionType type, long updateMillis) {
         throttle(300L);
-        PointHistory pointHistory = new PointHistory(cursor++, userId, amount, type, updateMillis);
-        table.add(pointHistory);
-        return pointHistory;
+        PointHistoryModel pointHistoryModel = new PointHistoryModel(cursor++, userId, amount, type, updateMillis);
+        table.add(pointHistoryModel);
+        return pointHistoryModel;
     }
 
-    public List<PointHistory> selectAllByUserId(long userId) {
-        return table.stream().filter(pointHistory -> pointHistory.userId() == userId).toList();
+    public List<PointHistoryModel> selectAllByUserId(long userId) {
+        return table.stream().filter(pointHistoryModel -> pointHistoryModel.userId() == userId).toList();
     }
 
     private void throttle(long millis) {
