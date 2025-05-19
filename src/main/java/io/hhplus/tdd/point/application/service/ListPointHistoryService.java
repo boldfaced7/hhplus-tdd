@@ -17,6 +17,6 @@ public class ListPointHistoryService implements ListPointHistoryQuery {
 
     @Override
     public List<PointHistory> listPointHistory(ListPointHistoryCommand command) {
-        return List.of();
+        return listPointHistoryPort.listByUserPointId(command.userPointId());
     }
 }

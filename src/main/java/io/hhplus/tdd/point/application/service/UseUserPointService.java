@@ -5,6 +5,8 @@ import io.hhplus.tdd.point.application.port.in.UseUserPointUseCase;
 import io.hhplus.tdd.point.application.port.out.FindUserPointPort;
 import io.hhplus.tdd.point.application.port.out.SavePointHistoryPort;
 import io.hhplus.tdd.point.application.port.out.UpdateUserPointPort;
+import io.hhplus.tdd.point.domain.exception.UserPointNotFoundException;
+import io.hhplus.tdd.point.domain.model.PointHistory;
 import io.hhplus.tdd.point.domain.model.UserPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,17 @@ public class UseUserPointService implements UseUserPointUseCase {
 
     @Override
     public UserPoint usePoint(UseUserPointCommand command) {
-        return null;
+        UserPoint found = findUserPointPort.findByUserPointId(command.userPointId())
+                .orElseThrow(() -> new UserPointNotFoundException(command.userPointId()));
+
+        UserPoint used = found.usePoint(command.amount());
+        UserPoint updated = updateUserPointPort.updatePoint(used);
+
+        savePointHistoryPort.savePointHistory(PointHistory.use(
+                command.userPointId(), 
+                command.amount()
+        ));
+
+        return updated;
     }
 }
