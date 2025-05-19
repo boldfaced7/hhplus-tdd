@@ -5,11 +5,11 @@ import io.hhplus.tdd.point.application.port.in.exception.UserPointIdNullExceptio
 import io.hhplus.tdd.point.domain.vo.Amount;
 import io.hhplus.tdd.point.domain.vo.UserPointId;
 
-public record ChargePointCommand(
+public record ChargeUserPointCommand(
         UserPointId userPointId,
         Amount amount
 ) {
-    public ChargePointCommand {
+    public ChargeUserPointCommand {
         if (userPointId == null) {
             throw new UserPointIdNullException();
         }

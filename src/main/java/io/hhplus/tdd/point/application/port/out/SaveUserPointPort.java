@@ -1,7 +1,7 @@
 package io.hhplus.tdd.point.application.port.out;
 
-import io.hhplus.tdd.point.domain.vo.Point;
+import io.hhplus.tdd.point.domain.model.UserPoint;
 
 public interface SaveUserPointPort {
-    Point saveUserPoint(Point point);
+    UserPoint saveUserPoint(UserPoint userPoint);
 }
