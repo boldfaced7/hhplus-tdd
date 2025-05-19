@@ -1,4 +1,4 @@
-package io.hhplus.tdd;
+package io.hhplus.tdd.point.adapter.in.web;
 
 public record ErrorResponse(
         String code,
