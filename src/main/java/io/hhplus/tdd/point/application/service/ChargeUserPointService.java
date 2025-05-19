@@ -25,7 +25,7 @@ public class ChargeUserPointService implements ChargeUserPointUseCase {
                 .orElseThrow(() -> new UserPointNotFoundException(command.userPointId()));
 
         UserPoint charged = found.chargePoint(command.amount());
-        UserPoint updated = updateUserPointPort.updatePoint(charged);
+        UserPoint updated = updateUserPointPort.updateUserPoint(charged);
 
         savePointHistoryPort.savePointHistory(PointHistory.charge(
                 command.userPointId(), 

@@ -25,7 +25,7 @@ public class UseUserPointService implements UseUserPointUseCase {
                 .orElseThrow(() -> new UserPointNotFoundException(command.userPointId()));
 
         UserPoint used = found.usePoint(command.amount());
-        UserPoint updated = updateUserPointPort.updatePoint(used);
+        UserPoint updated = updateUserPointPort.updateUserPoint(used);
 
         savePointHistoryPort.savePointHistory(PointHistory.use(
                 command.userPointId(), 

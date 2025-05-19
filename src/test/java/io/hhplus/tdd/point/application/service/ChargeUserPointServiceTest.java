@@ -37,11 +37,11 @@ class ChargeUserPointServiceTest {
     @Mock
     private SavePointHistoryPort savePointHistoryPort;
 
-    private ChargeUserUserPointService chargeUserPointService;
+    private ChargeUserPointService chargeUserPointService;
 
     @BeforeEach
     void setUp() {
-        chargeUserPointService = new ChargeUserUserPointService(
+        chargeUserPointService = new ChargeUserPointService(
                 findUserPointPort, updateUserPointPort, savePointHistoryPort);
     }
 
@@ -57,7 +57,7 @@ class ChargeUserPointServiceTest {
         
         when(findUserPointPort.findByUserPointId(any())).thenReturn(Optional.of(expectedUserPoint));
         when(savePointHistoryPort.savePointHistory(any())).thenReturn(expectedHistory);
-        when(updateUserPointPort.updatePoint(any())).thenReturn(expectedUserPoint);
+        when(updateUserPointPort.updateUserPoint(any())).thenReturn(expectedUserPoint);
 
         // when
         var result = chargeUserPointService.chargePoint(command);
@@ -65,7 +65,7 @@ class ChargeUserPointServiceTest {
         // then
         assertThat(result).isNotNull();
         verify(findUserPointPort).findByUserPointId(any());
-        verify(updateUserPointPort).updatePoint(any());
+        verify(updateUserPointPort).updateUserPoint(any());
         verify(savePointHistoryPort).savePointHistory(any());
     }
 
