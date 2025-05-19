@@ -1,8 +1,8 @@
-package io.hhplus.tdd.point.domain.model;
+package io.hhplus.tdd.point.adapter.out.persistence;
 
 import io.hhplus.tdd.point.domain.enums.TransactionType;
 
-public record PointHistory(
+public record PointHistoryModel(
         long id,
         long userId,
         long amount,
