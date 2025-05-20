@@ -23,6 +23,13 @@ public class UseUserPointServiceWithEvent implements UseUserPointUseCase {
 
     @Override
     public UserPoint usePoint(UseUserPointCommand command) {
-        return null;
+        UserPoint found = findUserPointPort.findByUserPointId(command.userPointId())
+                .orElseThrow(() -> new UserPointNotFoundException(command.userPointId()));
+
+        UserPoint used = found.usePoint(command.amount());
+        List<UserPointChanged> raised = used.pullEvents();
+
+        publishUserPointChangedPort.publish(raised);
+        return updateUserPointPort.updateUserPoint(used);
     }
 }
