@@ -57,7 +57,7 @@ class UseUserPointServiceTest {
         
         when(findUserPointPort.findByUserPointId(any())).thenReturn(Optional.of(expectedUserPoint));
         when(savePointHistoryPort.savePointHistory(any())).thenReturn(expectedHistory);
-        when(updateUserPointPort.updatePoint(any())).thenReturn(expectedUserPoint);
+        when(updateUserPointPort.updateUserPoint(any())).thenReturn(expectedUserPoint);
 
         // when
         var result = usePointService.usePoint(command);
@@ -65,7 +65,7 @@ class UseUserPointServiceTest {
         // then
         assertThat(result).isNotNull();
         verify(findUserPointPort).findByUserPointId(any());
-        verify(updateUserPointPort).updatePoint(any());
+        verify(updateUserPointPort).updateUserPoint(any());
         verify(savePointHistoryPort).savePointHistory(any());
     }
 

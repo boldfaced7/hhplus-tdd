@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ChargeUserUserPointService implements ChargeUserPointUseCase {
+public class ChargeUserPointService implements ChargeUserPointUseCase {
 
     private final FindUserPointPort getUserPointPort;
     private final UpdateUserPointPort updateUserPointPort;
@@ -25,7 +25,7 @@ public class ChargeUserUserPointService implements ChargeUserPointUseCase {
                 .orElseThrow(() -> new UserPointNotFoundException(command.userPointId()));
 
         UserPoint charged = found.chargePoint(command.amount());
-        UserPoint updated = updateUserPointPort.updatePoint(charged);
+        UserPoint updated = updateUserPointPort.updateUserPoint(charged);
 
         savePointHistoryPort.savePointHistory(PointHistory.charge(
                 command.userPointId(), 
