@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 @RequiredArgsConstructor
@@ -20,16 +21,23 @@ public class ChargeUserPointServiceWithEvent implements ChargeUserPointUseCase {
     private final FindUserPointPort getUserPointPort;
     private final UpdateUserPointPort updateUserPointPort;
     private final PublishUserPointChangedPort publishUserPointChangedPort;
+    private final ReentrantLock lock = new ReentrantLock();
 
     @Override
     public UserPoint chargePoint(ChargeUserPointCommand command) {
-        UserPoint found = getUserPointPort.findByUserPointId(command.userPointId())
-                .orElseThrow(() -> new UserPointNotFoundException(command.userPointId()));
+        lock.lock();
+        try {
+            UserPoint found = getUserPointPort.findByUserPointId(command.userPointId())
+                    .orElseThrow(() -> new UserPointNotFoundException(command.userPointId()));
 
-        UserPoint charged = found.chargePoint(command.amount());
-        List<UserPointChanged> raised = charged.pullEvents();
+            UserPoint charged = found.chargePoint(command.amount());
+            List<UserPointChanged> raised = charged.pullEvents();
 
-        publishUserPointChangedPort.publish(raised);
-        return updateUserPointPort.updateUserPoint(charged);
+            publishUserPointChangedPort.publish(raised);
+            return updateUserPointPort.updateUserPoint(charged);
+
+        } finally {
+            lock.unlock();
+        }
     }
 }
