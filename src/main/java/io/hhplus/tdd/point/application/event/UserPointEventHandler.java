@@ -1,14 +1,16 @@
 package io.hhplus.tdd.point.application.event;
 
 import io.hhplus.tdd.point.application.port.out.SavePointHistoryPort;
-import io.hhplus.tdd.point.domain.event.UserPointChanged;
+import io.hhplus.tdd.point.domain.event.UserPointCharged;
 import io.hhplus.tdd.point.domain.event.UserPointUsed;
 import io.hhplus.tdd.point.domain.model.PointHistory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class UserPointEventHandler {
@@ -17,10 +19,10 @@ public class UserPointEventHandler {
 
     @Async
     @EventListener
-    public void handle(UserPointChanged userPointChanged) {
+    public void handle(UserPointCharged userPointCharged) {
         PointHistory toBeSaved = PointHistory.charge(
-                userPointChanged.userPointId(),
-                userPointChanged.amount()
+                userPointCharged.userPointId(),
+                userPointCharged.amount()
         );
         savePointHistoryPort.savePointHistory(toBeSaved);
     }
