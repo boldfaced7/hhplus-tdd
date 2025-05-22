@@ -1,10 +1,10 @@
 package io.hhplus.tdd.point.application.service;
 
 import io.hhplus.tdd.point.application.port.in.UseUserPointCommand;
+import io.hhplus.tdd.point.application.port.out.ExecuteLockPort;
 import io.hhplus.tdd.point.application.port.out.FindUserPointPort;
 import io.hhplus.tdd.point.application.port.out.PublishUserPointChangedPort;
 import io.hhplus.tdd.point.application.port.out.UpdateUserPointPort;
-import io.hhplus.tdd.point.domain.event.UserPointChanged;
 import io.hhplus.tdd.point.domain.exception.PointNotEnoughException;
 import io.hhplus.tdd.point.domain.exception.UserPointNotFoundException;
 import io.hhplus.tdd.point.domain.model.UserPoint;
@@ -38,12 +38,15 @@ class UseUserPointServiceWithEventTest {
     @Mock
     private PublishUserPointChangedPort publishUserPointChangedPort;
 
+    @Mock
+    private ExecuteLockPort executeLockPort;
+
     private UseUserPointServiceWithEvent usePointService;
 
     @BeforeEach
     void setUp() {
         usePointService = new UseUserPointServiceWithEvent(
-                findUserPointPort, updateUserPointPort, publishUserPointChangedPort);
+                findUserPointPort, updateUserPointPort, publishUserPointChangedPort, executeLockPort);
     }
 
     @Test

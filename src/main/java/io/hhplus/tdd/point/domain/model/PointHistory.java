@@ -37,7 +37,7 @@ public record PointHistory(
             userId,
             amount,
             TransactionType.CHARGE,
-            null
+            new UpdateMillis(System.currentTimeMillis())
         );
     }
 
@@ -47,7 +47,7 @@ public record PointHistory(
             userId,
             amount,
             TransactionType.USE,
-            null
+            new UpdateMillis(System.currentTimeMillis())
         );
     }
 }
